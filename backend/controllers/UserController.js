@@ -63,4 +63,9 @@ const currentuser = asyncHandler(async (req, res) => {
     res.json(req.user);
 });
 
-export { registeruser, loginuser, currentuser};
+const logoutuser= asyncHandler(async (req, res) => {
+    req.user = null;  
+    res.status(200).json({ message: 'Logout successful.' });
+});
+
+export { registeruser, loginuser, currentuser, logoutuser};

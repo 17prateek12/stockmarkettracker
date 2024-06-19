@@ -14,6 +14,8 @@ import {
     Legend,
 } from 'chart.js';
 
+
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -26,6 +28,7 @@ ChartJS.register(
 
 const StockChart = () => {
     const stockData = useSelector((state) => state.stock.data);
+    console.log("stock",stockData)
 
     if (!stockData) {
         return null;
@@ -35,18 +38,37 @@ const StockChart = () => {
         new Date(time * 1000).toLocaleDateString()
     );
 
-    const createChart = (label, data, borderColor) => ({
-        labels,
+    const chartData = {
+        labels: stockData.timestamp.map((time) =>
+          new Date(time * 1000).toLocaleDateString()
+        ),
         datasets: [
-            {
-                label,
-                data,
-                borderColor,
-                fill: false,
-            },
+          {
+            label: 'Open',
+            data: stockData.indicators.quote[0].open,
+            borderColor: '#8884d8',
+            fill: false,
+          },
+          {
+            label: 'Close',
+            data: stockData.indicators.quote[0].close,
+            borderColor: '#82ca9d',
+            fill: false,
+          },
+          {
+            label: 'High',
+            data: stockData.indicators.quote[0].high,
+            borderColor: '#ff7300',
+            fill: false,
+          },
+          {
+            label: 'Low',
+            data: stockData.indicators.quote[0].low,
+            borderColor: '#387908',
+            fill: false,
+          },
         ],
-
-    });
+      };
 
     const options = {
         scales: {
@@ -57,47 +79,11 @@ const StockChart = () => {
             },
         },
     };
-    const graphdata = [
-        {
-            label: 'Open',
-            stock: stockData.indicators.quote[0].open,
-            borderColor: '#8884d8'
-        },
-        {
-            label: 'Close',
-            stock: stockData.indicators.quote[0].close,
-            borderColor: '#8884d8'
-        },
-        {
-            label: 'Adj Close',
-            stock: stockData.indicators.adjclose[0].adjclose,
-            borderColor: '#8884d8'
-        },
-        {
-            label: 'High',
-            stock: stockData.indicators.quote[0].high,
-            borderColor: '#8884d8'
-        },
-        {
-            label: 'Low',
-            stock: stockData.indicators.quote[0].low,
-            borderColor: '#8884d8'
-        }
-    ]
+
 
     return (
-        <Box sx={{ 
-            display: 'flex', 
-            flexWrap: 'wrap', 
-            width: 'full',
-            justifyContent:'space-evenly',
-            gap:'16px'
-            }}>
-            {graphdata.map((item, index) => (
-                <Box key={index} sx={{ width: "450px" }}>
-                    <Line data={createChart(item.label, item.stock, item.borderColor)} options={options} />
-                </Box>
-            ))}
+        <Box sx={{width:'800px'}}>
+            <Line data={chartData} options={options} />
         </Box>
     );
 };

@@ -2,14 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 
 export const fetchSearchResults = createAsyncThunk('search/fetchSearchResults', async (query) => {
-    const response = await axios.get(`http://localhost:5001/api/stock/search/${query}`);
+    const response = await axios.get(`http://localhost:5001/api/stock/search/:${query}`);
     return response.data;
 })
 
 const searchSlice = createSlice({
     name: 'search',
     initialState: {
-        result: [],
+        results: [],
         loading: false,
         error: null,
     },
@@ -21,7 +21,7 @@ const searchSlice = createSlice({
             })
             .addCase(fetchSearchResults.fulfilled, (state, action) => {
                 state.loading = false;
-                state.results = action.payload.bestMatches || [];
+                state.results = action.payload.quotes || [];
             })
             .addCase(fetchSearchResults.rejected, (state, action) => {
                 state.loading = false;
