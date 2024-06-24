@@ -3,9 +3,9 @@ import { historicaldata,searchSymbol,companydetail, newsdetail } from '../contro
 
 const router = express.Router();
 
-router.route("/hisdata/:symbol").get(historicaldata);
+router.route("/hisdata").get(historicaldata);
 router.route("/search/:query").get(searchSymbol);
-router.route("/detail/:symbol").get(companydetail)
+router.route("/detail").get(companydetail)
 router.route("/news").get(newsdetail);
 
 export default router;

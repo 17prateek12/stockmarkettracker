@@ -16,10 +16,18 @@ const Dashboard = ({ selectedSymbol, setSelectedSymbol }) => {
 
 
   return (
-    <div className='dashboard'>
+    <Box sx={{display:'flex', flexDirection:'column', marginY:'2rem'}}>
+      <Box sx={{
+        marginBottom:'3rem',
+        '@media (max-width:770px)':{
+          overflowX:'scroll'
+        }
+      }}>
       <StockChart symbol={selectedSymbol} />
+      </Box>
+     
       <StockDetailCard symbol={selectedSymbol} />
-    </div>
+    </Box>
   );
 };
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { registeruser, loginuser,currentuser,logoutuser} from '../controllers/UserController.js';
+import { registeruser, loginuser,currentuser,logoutUser} from '../controllers/UserController.js';
 import validateToken from '../middleware/validateTokenHandler.js';
 
 const router = express.Router();
@@ -10,6 +10,6 @@ router.route('/login').post(loginuser);
 
 router.route('/current').get(validateToken ,currentuser);
 
-router.route('/logout').post(validateToken,logoutuser);
+router.route('/logout').post(logoutUser);
 
 export default router;

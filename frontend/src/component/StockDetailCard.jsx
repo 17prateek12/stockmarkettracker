@@ -24,32 +24,32 @@ const StockDetailCard = ({ symbol }) => {
     }
 
     return (
-        <Card sx={{ maxWidth: 600, margin: 'auto', mt: 4 }}>
+        <Card sx={{ maxWidth: 600, margin: 'auto', padding:'1rem',border:'1px solid gray' }}>
             <CardContent>
-                <Typography variant="h5" component="div">
+                <Typography variant="h5" component="div" sx={{fontWeight:600}}>
                     {stockDetail.longName} ({stockDetail.symbol})
                 </Typography>
-                <Box>
-                    <Typography variant="body2" color="text.secondary">
-                        Market Cap: {stockDetail.marketCap?.fmt}
+                <Box sx={{marginTop:'16px'}}>
+                    <Typography sx={{fontSize:'16px', color:'black'}}>
+                        <span style={{fontWeight:600}}>Market Cap:</span> {stockDetail.marketCap?.fmt}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Dividend Yield: {stockDetail.dividendYield?.fmt}
+                    <Typography sx={{fontSize:'16px', color:'black'}}>
+                    <span style={{fontWeight:600}}>Dividend Yield:</span> {stockDetail.dividendYield?.fmt}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        EPS (TTM): {stockDetail.epsTrailingTwelveMonths?.fmt}
+                    <Typography sx={{fontSize:'16px', color:'black'}}>
+                    <span style={{fontWeight:600}}>EPS (TTM):</span> {stockDetail.epsTrailingTwelveMonths?.fmt}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        PE Ratio: {stockDetail.trailingPE?.fmt}
+                    <Typography sx={{fontSize:'16px', color:'black'}}>
+                    <span style={{fontWeight:600}}>PE Ratio:</span> {stockDetail.trailingPE?.fmt}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        52 Week Range: {stockDetail.fiftyTwoWeekRange?.fmt}
+                    <Typography sx={{fontSize:'16px', color:'black'}}>
+                    <span style={{fontWeight:600}}> 52 Week Range:</span> {stockDetail.fiftyTwoWeekRange?.fmt}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Average Analyst Rating: {stockDetail.averageAnalystRating}
+                    <Typography sx={{fontSize:'16px', color:'black'}}>
+                    <span style={{fontWeight:600}}>Average Analyst Rating:</span> {stockDetail.averageAnalystRating}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Regular Market Day Range: {stockDetail.regularMarketDayRange?.fmt}
+                    <Typography sx={{fontSize:'16px', color:'black'}}>
+                    <span style={{fontWeight:600}}>Regular Market Day Range:</span> {stockDetail.regularMarketDayRange?.fmt}
                     </Typography>
                 </Box>
             </CardContent>

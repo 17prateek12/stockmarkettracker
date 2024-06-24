@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchNews } from '../feature/newsSlice';
 import NewsCard from '../component/NewsCard';
+import { Box } from '@mui/material';
 
 const News = () => {
   const dispatch = useDispatch();
@@ -27,10 +28,18 @@ const News = () => {
   }
 
   return (
-    <div className='newsmain'>
-      <h1>News</h1>
+    <Box sx={{
+      display:'flex', 
+      maxWidth:'100%', 
+      justifyContent:"space-evenly", 
+      alignItems:'center', 
+      flexWrap:'wrap', 
+      gap:'30px',
+      marginX:'2rem',
+      marginTop:'2rem'
+    }}>
       {content}
-    </div>
+    </Box>
   );
 };
 

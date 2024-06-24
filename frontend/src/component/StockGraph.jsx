@@ -82,7 +82,12 @@ const StockChart = () => {
 
 
     return (
-        <Box sx={{width:'800px'}}>
+        <Box sx={{maxWidth:'100%', marginX:'4rem',minWidth:'800px',
+          '@media (max-width:770px)':{
+            
+            marginX:'2rem'
+          }
+        }}>
             <Line data={chartData} options={options} />
         </Box>
     );

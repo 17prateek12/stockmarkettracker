@@ -47,7 +47,13 @@ const SearchBar = ({ onSelectSymbol }) => {
   };
 
   return (
-    <Box sx={{ width: '500px' }}>
+    <Box 
+    sx={{ 
+      width: '500px',
+      '@media (max-width:770px)':{
+        width:'200px'
+      }
+       }}>
       <div className='searchbox'>
         <SearchOutlinedIcon
           sx={{ position: 'absolute', marginRight: '16px' }}

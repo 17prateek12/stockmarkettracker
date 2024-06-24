@@ -50,7 +50,7 @@ const loginuser = asyncHandler(async (req, res) => {
             },
         },
         process.env.ACCESS_TOKEN_SECRET,
-        {expiresIn:"1m"}
+        {expiresIn:"30d"}
     );
         res.status(200).json({accessToken});
     }else{
@@ -63,9 +63,12 @@ const currentuser = asyncHandler(async (req, res) => {
     res.json(req.user);
 });
 
-const logoutuser= asyncHandler(async (req, res) => {
-    req.user = null;  
-    res.status(200).json({ message: 'Logout successful.' });
-});
-
-export { registeruser, loginuser, currentuser, logoutuser};
+const logoutUser = asyncHandler(async (req, res) => {
+    res.cookie('jwt', '', {
+      httpOnly: true,
+      expires: new Date(0),
+    });
+    res.status(200).json({ message: 'Logged out successfully' });
+  });
+  
+export { registeruser, loginuser, currentuser, logoutUser};
