@@ -1,96 +1,39 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
-import { Box, ThemeProvider } from '@mui/material';
+import { Box } from '@mui/material';
+import { XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import DataNtimePick from './DataNtimePick';
 
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
+const StockGraph = ({ symbol }) => {
+  const stockData = useSelector((state) => state.stock.data);
 
+  if (!stockData || stockData.length === 0) {
+    return <div>No data available</div>;
+  }
+  console.log(stockData)
+  const chartData = stockData.map((dataPoint) => ({
+    name: new Date(dataPoint.date).toLocaleDateString(),
+    open: dataPoint.open,
+    close: dataPoint.close,
+    high: dataPoint.high,
+    low: dataPoint.low,
+  }));
 
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
-
-const StockChart = () => {
-    const stockData = useSelector((state) => state.stock.data);
-    console.log("stock",stockData)
-
-    if (!stockData) {
-        return null;
-    }
-
-    const labels = stockData.timestamp.map((time) =>
-        new Date(time * 1000).toLocaleDateString()
-    );
-
-    const chartData = {
-        labels: stockData.timestamp.map((time) =>
-          new Date(time * 1000).toLocaleDateString()
-        ),
-        datasets: [
-          {
-            label: 'Open',
-            data: stockData.indicators.quote[0].open,
-            borderColor: '#8884d8',
-            fill: false,
-          },
-          {
-            label: 'Close',
-            data: stockData.indicators.quote[0].close,
-            borderColor: '#82ca9d',
-            fill: false,
-          },
-          {
-            label: 'High',
-            data: stockData.indicators.quote[0].high,
-            borderColor: '#ff7300',
-            fill: false,
-          },
-          {
-            label: 'Low',
-            data: stockData.indicators.quote[0].low,
-            borderColor: '#387908',
-            fill: false,
-          },
-        ],
-      };
-
-    const options = {
-        scales: {
-            y: {
-                type: 'linear',
-                display: true,
-                position: 'left',
-            },
-        },
-    };
-
-
-    return (
-        <Box sx={{maxWidth:'100%', marginX:'4rem',minWidth:'800px',
-          '@media (max-width:770px)':{
-            
-            marginX:'2rem'
-          }
-        }}>
-            <Line data={chartData} options={options} />
-        </Box>
-    );
+  return (
+    <Box sx={{ marginBottom: '3rem', '@media (max-width:770px)': { overflowX: 'scroll', overflowY: 'none' } }}>
+      <DataNtimePick symbol={symbol} />
+      <ResponsiveContainer width={1000} height={450}>
+        <AreaChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis dataKey="open" />
+          <Tooltip />
+          <Legend />
+          <Area type="monotone" dataKey="open" stroke="lightblue" fill="lightblue" />
+        </AreaChart>
+      </ResponsiveContainer>
+    </Box>
+  );
 };
 
-export default StockChart;
+export default StockGraph;

@@ -1,58 +1,58 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchStockDetail } from '../feature/detailSlice';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 
-const StockDetailCard = ({ symbol }) => {
-    const dispatch = useDispatch();
+const StockDetailCard = () => {
     const stockDetail = useSelector((state) => state.detail.detail);
-    const stockStatus = useSelector((state) => state.detail.status);
-    const error = useSelector((state) => state.detail.error);
+   console.log("stock detail",stockDetail)
 
-    useEffect(() => {
-        if (stockStatus === 'idle') {
-            dispatch(fetchStockDetail(symbol));
-        }
-    }, [stockStatus, dispatch, symbol]);
-
-    if (stockStatus === 'loading') {
-        return <div>Loading...</div>;
+    if (!stockDetail) {
+        return <div>No data available</div>;
     }
-
-    if (stockStatus === 'failed') {
-        return <div>{error}</div>;
-    }
-
-    return (
-        <Card sx={{ maxWidth: 600, margin: 'auto', padding:'1rem',border:'1px solid gray' }}>
-            <CardContent>
-                <Typography variant="h5" component="div" sx={{fontWeight:600}}>
-                    {stockDetail.longName} ({stockDetail.symbol})
+     const renderdetails = stockDetail.map((item)=>(
+        <CardContent>
+                <Typography variant="h5" component="div" sx={{ fontWeight: 600 }}>
+                    {item.companyName} ({item.symbol})
                 </Typography>
-                <Box sx={{marginTop:'16px'}}>
-                    <Typography sx={{fontSize:'16px', color:'black'}}>
-                        <span style={{fontWeight:600}}>Market Cap:</span> {stockDetail.marketCap?.fmt}
+                <Box sx={{ marginTop: '16px' }}>
+                    <Typography sx={{ fontSize: '16px', color: 'black' }}>
+                        <span style={{ fontWeight: 600 }}>Market Cap:</span> ${item.mktCap?.toLocaleString()}
                     </Typography>
-                    <Typography sx={{fontSize:'16px', color:'black'}}>
-                    <span style={{fontWeight:600}}>Dividend Yield:</span> {stockDetail.dividendYield?.fmt}
+                    <Typography sx={{ fontSize: '16px', color: 'black' }}>
+                        <span style={{ fontWeight: 600 }}>Price:</span> ${item.price}
                     </Typography>
-                    <Typography sx={{fontSize:'16px', color:'black'}}>
-                    <span style={{fontWeight:600}}>EPS (TTM):</span> {stockDetail.epsTrailingTwelveMonths?.fmt}
+                    <Typography sx={{ fontSize: '16px', color: 'black' }}>
+                        <span style={{ fontWeight: 600 }}>Sector:</span> {item.sector}
                     </Typography>
-                    <Typography sx={{fontSize:'16px', color:'black'}}>
-                    <span style={{fontWeight:600}}>PE Ratio:</span> {stockDetail.trailingPE?.fmt}
+                    <Typography sx={{ fontSize: '16px', color: 'black' }}>
+                        <span style={{ fontWeight: 600 }}>Industry:</span> {item.industry}
                     </Typography>
-                    <Typography sx={{fontSize:'16px', color:'black'}}>
-                    <span style={{fontWeight:600}}> 52 Week Range:</span> {stockDetail.fiftyTwoWeekRange?.fmt}
+                    <Typography sx={{ fontSize: '16px', color: 'black' }}>
+                        <span style={{ fontWeight: 600 }}>CEO:</span> {item.ceo}
                     </Typography>
-                    <Typography sx={{fontSize:'16px', color:'black'}}>
-                    <span style={{fontWeight:600}}>Average Analyst Rating:</span> {stockDetail.averageAnalystRating}
-                    </Typography>
-                    <Typography sx={{fontSize:'16px', color:'black'}}>
-                    <span style={{fontWeight:600}}>Regular Market Day Range:</span> {stockDetail.regularMarketDayRange?.fmt}
+                    <Typography sx={{ fontSize: '16px', color: 'black' }}>
+                        <span style={{ fontWeight: 600 }}>Location:</span> {item.state}, {item.country}
                     </Typography>
                 </Box>
             </CardContent>
+
+     ))
+
+    return (
+        <Card
+            sx={{
+                width: '300px',
+                height: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid lightgray',
+                borderRadius: '16px',
+                padding: '16px'
+            }}
+        >
+            {renderdetails}
         </Card>
     );
 };

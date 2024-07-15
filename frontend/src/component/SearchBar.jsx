@@ -4,6 +4,7 @@ import { fetchSearchResults } from '../feature/searchSlice';
 import { fetchStockDetail } from '../feature/detailSlice';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { Box } from '@mui/material';
+import { fetchStockData } from '../feature/stockSlice';
 
 const SearchBar = ({ onSelectSymbol }) => {
   const [query, setQuery] = useState('');
@@ -25,8 +26,13 @@ const SearchBar = ({ onSelectSymbol }) => {
     }
   };
 
+  const handleClose = () => {
+    setShowResults(false);
+  }
+
   const handleSelect = (symbol) => {
     dispatch(fetchStockDetail(symbol));
+    dispatch(fetchStockData(symbol));
     setQuery(symbol);
     setShowResults(false);
     onSelectSymbol(symbol);
@@ -48,12 +54,15 @@ const SearchBar = ({ onSelectSymbol }) => {
 
   return (
     <Box 
-    sx={{ 
-      width: '500px',
-      '@media (max-width:770px)':{
-        width:'200px'
-      }
-       }}>
+      sx={{ 
+        width: '500px',
+        '@media (max-width:770px)':{
+          width:'200px'
+        },
+        position: 'relative',
+      }}
+      onClick={handleClose}
+    >
       <div className='searchbox'>
         <SearchOutlinedIcon
           sx={{ position: 'absolute', marginRight: '16px' }}
@@ -68,8 +77,6 @@ const SearchBar = ({ onSelectSymbol }) => {
           onKeyDown={handleKeyDown}
         />
       </div>
-      {loading && <p style={{marginTop:'4rem'}}>Loading...</p>}
-      {error && <p style={{marginTop:'4rem'}}>Error: {error}</p>}
       {showResults && (
         <ul className='resultlist'>
           {results && results.map((result, index) => (
@@ -82,10 +89,28 @@ const SearchBar = ({ onSelectSymbol }) => {
                 cursor: 'pointer',
               }}
             >
-              {result.symbol} - {result.shortname}
+              {result.symbol} - {result.name}
             </li>
           ))}
         </ul>
+      )}
+      {(loading || error) && (
+        <div 
+          style={{ 
+            position: 'absolute', 
+            top: '100%', 
+            left: 0, 
+            width: '100%', 
+            marginTop: '0.5rem', 
+            backgroundColor: '#fff', 
+            border: '1px solid #ddd', 
+            padding: '0.5rem',
+            boxSizing: 'border-box'
+          }}
+        >
+          {loading && <p>Loading...</p>}
+          {error && <p>Error: {error}</p>}
+        </div>
       )}
     </Box>
   );

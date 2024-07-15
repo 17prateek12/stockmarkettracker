@@ -6,7 +6,7 @@ import SearchBar from './SearchBar';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Button, Box, Typography } from '@mui/material';
 
-const NavBar = () => {
+const NavBar = ({ onSelectSymbol }) => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
@@ -29,10 +29,6 @@ const NavBar = () => {
     }
   };
 
-  const handleSelectSymbol = (symbol) => {
-    console.log('Selected symbol:', symbol);
-  };
-
   const handleScreenOverflow = (state) => {
     document.body.style.overflow = state ? "hidden" : "auto";
   };
@@ -47,7 +43,7 @@ const NavBar = () => {
       <nav>
         {isAuthenticated ? (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <SearchBar onSelectSymbol={handleSelectSymbol} />
+            <SearchBar  onSelectSymbol={onSelectSymbol}/>
             <Button onClick={() => toggleDrawer(true)}>
               <GiHamburgerMenu />
             </Button>
