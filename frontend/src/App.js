@@ -14,7 +14,6 @@ import { checkAuthStatus } from './feature/authSlice';
 import PrivateRoute from './component/PrivateRoute';
 import About from './pages/About';
 import useStockData from './component/useStockData';
-import dayjs from 'dayjs';
 
 const App = () => {
   const dispatch = useDispatch();

@@ -5,12 +5,20 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import { fetchStockData } from '../feature/stockSlice';
+import useStockData from './useStockData';
 
-const DataNtimePick = ({ symbol }) => {
-  const [startDate, setStartDate] = useState(dayjs());
-  const [endDate, setEndDate] = useState(dayjs());
+const DataNtimePick = () => {
+  const today = dayjs(); // Current date
+  const [startDate, setStartDate] = useState(dayjs().subtract(7, 'day')); 
+  const [endDate, setEndDate] = useState(today); 
   const dispatch = useDispatch();
 
+  const [symbol, setSymbol] = useState('MS');
+  const { stockData, loading, error } = useStockData({
+    symbol,
+    startdate: startDate,
+    enddate: endDate
+  });
   const handleDateChange = (start, end) => {
     const formattedStart = start.format('YYYY-MM-DD');
     const formattedEnd = end.format('YYYY-MM-DD');
@@ -50,12 +58,14 @@ const DataNtimePick = ({ symbol }) => {
           label="Start Date"
           value={startDate}
           onChange={handleStartDateChange}
+          maxDate={endDate}
           renderInput={(params) => <TextField {...params} />}
         />
         <MobileDatePicker
           label="End Date"
           value={endDate}
           onChange={handleEndDateChange}
+          maxDate={today} // Prevent future dates
           renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
